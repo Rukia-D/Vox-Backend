@@ -24,10 +24,6 @@ const createOfficers = async () => {
 
     let flag = false
     for (const state in data) {
-        if (state == "Madhya Pradesh"){
-            flag = true;
-        }
-        if (flag == true){
             const districts = data[state].districtData;
             for (const district in districts) {
                 const districtWithoutSpaces = district.replace(/ /g, '');
@@ -57,7 +53,6 @@ const createOfficers = async () => {
                 }
                 }
             }
-        }
         console.log(`${state} populated`)
     }
 
