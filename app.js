@@ -10,6 +10,12 @@ const express = require('express');
 const app = express();
 
 const connectDB = require('./db/connect.js');
+const authenticateUser = require('./middleware/authentication')
+const authenticateOfficer = require('./middleware/authenticationOfficer')
+const authenticateAdmin = require('./middleware/authenticationAdmin')
+
+const notFoundMiddleware = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.use(express.json());
 
@@ -22,6 +28,19 @@ app.use(rateLimiter({
 app.use(helmet());
 app.use(cors());
 app.use(xss());
+
+const authRouter = require('./routes/auth')
+const complaintsRouter = require('./routes/complaints')
+const tasksRouter = require('./routes/tasks');
+const { roleAuthenticationMiddleware } = require('./middleware/roleAuthentication.js');
+ 
+
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/complaints', authenticateUser, roleAuthenticationMiddleware('user'), complaintsRouter)
+app.use('/api/v1/tasks', authenticateOfficer, roleAuthenticationMiddleware('officer'), tasksRouter)
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3000;
 
