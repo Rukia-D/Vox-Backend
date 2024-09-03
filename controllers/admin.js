@@ -6,7 +6,6 @@ const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError } = require('../errors/')
 
 const registerOfficer = async (req, res) => {
-
     try {
         const admin = await Admin.findOne({ _id: req.admin.adminId })
         req.body.district = admin.district;
@@ -19,10 +18,8 @@ const registerOfficer = async (req, res) => {
         })
         res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
     } catch (error) {
-        // console.log(error);
         res.status(400).json({ error: error.message });
     }
-
 }
 
 const deleteOfficer = async (req, res) => {

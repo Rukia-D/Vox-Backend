@@ -169,8 +169,8 @@ const sendEmail = async (to, subject, body) => {
       port: 465,
       secure: true,
       auth: {
-        user: 'grievanceportaliiita4@gmail.com',
-        pass: 'bryoccqsbhkhnhah',
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
       },
     });
 
